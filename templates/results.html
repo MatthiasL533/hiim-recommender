@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Impact measurement method recommendations for {{ company_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h2 class="card-title">
+                        Impact measurement method recommendations
+                    </h2>
+                    <h4 class="text-muted">{{ company_name }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="row">
+        <div class="col-12">
+            <div class="recommendation-result">
+                <h5 class="mb-3">
+                    <i class="fas fa-lightbulb me-2"></i>Recommended impact measurement methods
+                </h5>
+                <div class="recommendations-content">
+                    {{ recommendations|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary me-3">
+                <i class="fas fa-arrow-left me-2"></i>Get new recommendations
+            </a>
+        </div>
+    </div>
+
+   
+{% endblock %}
+
+{% block scripts %}
+<script>
+    
+    // Add smooth scrolling for better UX
+    document.addEventListener('DOMContentLoaded', function() {
+        // Highlight any method names in the recommendations
+        const content = document.querySelector('.recommendations-content');
+        if (content) {
+            // This could be enhanced to make method names clickable links
+            // to detailed method pages in the future
+        }
+    });
+</script>
+{% endblock %}
