@@ -25,9 +25,9 @@ def check_ollama_setup():
         return False
 
 def main():
-    print("🚀 ESG Reporting Method Recommender")
+    print("ESG Reporting Method Recommender")
     print("==============================================")
-    print("Using Local Ollama AI (Completely Free)")
+    print("Using Local Ollama AI")
     print("==============================================\n")
     
     # Check Ollama setup
@@ -35,15 +35,15 @@ def main():
         return
     
     # Get company information
-    print("📝 Enter Company Information:")
+    print("Enter information:")
     print("-" * 30)
+
+    focus = input("Focus: ").strip()
+    industry = input("Industry: ").strip()
+    needs = input("Needs: ").strip()
+    objectives = input("Objectives: ").strip()
     
-    company_name = input("Company Name: ").strip()
-    description = input("Company Description: ").strip()
-    field = input("Industry/Field: ").strip()
-    activities = input("Key Activities/Products: ").strip()
-    
-    if not all([company_name, description, field, activities]):
+    if not all([focus, industry, needs, objectives]):
         print("❌ Please fill in all fields")
         return
     
@@ -58,7 +58,7 @@ def main():
     try:
         # Get recommendations
         recommendations = recommender.recommend(
-            company_name, description, field, activities
+            focus, industry, needs, objectives
         )
         
         print(recommendations)

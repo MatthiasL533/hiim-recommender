@@ -6,21 +6,21 @@ class ESGRecommender:
         self.data_loader = ESGDataLoader()
         self.llm_handler = OllamaHandler()
     
-    def recommend(self, company_name, description, field, activities):
+    def recommend(self, focus, industry, needs, objectives):
         """Main method to get ESG recommendations"""
         
         print("📁 Loading ESG framework data...")
         esg_context = self.data_loader.get_methods_context()
         
         # Prepare company info
-        company_info = {
-            'name': company_name,
-            'description': description,
-            'field': field,
-            'activities': activities
+        user_input = {
+            'focus': focus,
+            'industry': industry,
+            'needs': needs,
+            'objectives': objectives
         }
         
         # Get LLM recommendations
-        recommendations = self.llm_handler.get_recommendations(company_info, esg_context)
+        recommendations = self.llm_handler.get_recommendations(user_input, esg_context)
         
         return recommendations
