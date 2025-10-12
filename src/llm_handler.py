@@ -7,10 +7,10 @@ class OllamaHandler:
         self.model_name = model_name
         self.client = ollama.Client()
         
-    def get_recommendations(self, user_input, esg_context):
+    def get_recommendations(self, company_info, esg_context):
         """Get structured ESG recommendations using Ollama"""
         
-        prompt = self._build_structured_prompt(user_input, esg_context)
+        prompt = self._build_structured_prompt(company_info, esg_context)
         
         try:
             print("🤖 Generating recommendations with Ollama...")
@@ -30,103 +30,68 @@ class OllamaHandler:
         except Exception as e:
             return f"❌ Error: {str(e)}\n\nPlease ensure Ollama is running and the model '{self.model_name}' is installed."
     
-    def _build_structured_prompt(self, user_input, esg_context):
+    def _build_structured_prompt(self, company_info, esg_context):
         """Build a prompt that forces structured JSON output"""
         
-        return f"""You are an expert ESG (Environmental, Social, Governance) assessment consultant.
-Analyze the user's requirements and recommend the most suitable ESG methods from the available repository using chain-of-thought reasoning.
+        return f"""You are an expert ESG (Environmental, Social, Governance) reporting consultant. 
+Analyze the following company and it's requirements and recommend the most suitable ESG reporting frameworks from the available options which are found in the repository.
 
-USER REQUIREMENTS:
-Assessment Focus: {user_input['focus']}
-Industry/Context: {user_input['industry']}
-Specific Needs: {user_input['needs']}
-Key Objectives: {user_input['objectives']}
+User and company requirements:
+- Company Name: {company_info['name']}
+- Industry/Field: {company_info['field']}
+- Company Description: {company_info['description']}
+- Key Activities: {company_info['activities']}
+- Key ESG requirements: {company_info['ESG requirements']}
+- Purpose/end goal: {company_info['Purpose/end goal']}
 
 Repository: {esg_context}
 
-CHAIN-OF-THOUGHT ANALYSIS PROCESS:
-STEP 1: Classification Reasoning
-First, determine which broad method classification best fits the user's needs:
-
-ESEA (Environmental and Social Economic Assessment): Environmental/social impact assessment, stakeholder analysis, economic evaluation
-SIA (Social Impact Assessment): Social effects, community impacts, human rights, stakeholder welfare
-LCA (Life Cycle Assessment): Environmental impacts across product/service lifecycle, resource use, sustainability metrics
-
-Analyze:
-
-Primary focus area (environmental, social, economic, or combination)
-Assessment type needed (impact, performance, compliance, reporting)
-Scope and stage (planning, operation, product lifecycle, organizational)
-
-STEP 2: Method Evaluation Criteria
-For each method in the selected classification, evaluate against these dimensions:
-
-Description Match: How well does the method's description align with user needs?
-How relevant are the method's classified rationale and ratings compared to user's initial needs?
-
-STEP 3: Scoring Logic
-
-Analyze each CSV field
-Weigh each capability based on user's stated objectives
-Calculate total relevance score for each method
-Rank methods and select top 3
-
 INSTRUCTIONS:
+1. Analyze the company's industry, activities, and characteristics
+2. Match against the available ESG frameworks' applicability, focus areas, and relevance
+3. Select the TOP 3 most suitable frameworks
+4. Incorporate direct citations from the respective method fields in your recommendations where possible. Be as detailed as you can. 
+5. Return your response as VALID JSON only
 
-Perform classification reasoning to select ESEA, SIA, or LCA
-Analyze methods within selected classification against all evaluation criteria
-Review Description and rationale fields
-Match method capabilities to user requirements
-Select the TOP 3 most suitable methods
-Return your response as VALID JSON only
+CRITERIA FOR MATCHING:
+- Industry alignment
+- Focus area relevance
+- Key requirements relevance
+- Purpose & end goal alignment
 
-RETURN STRICT JSON FORMAT (no other text):
+RETURN THIS STRICT JSON FORMAT (no other introductory or concluding text):
 {{
-"classification_reasoning": {{
-"selected_classification": "ESEA/SIA/LCA",
-"primary_focus_identified": "Description of user's main concern",
-"assessment_type": "Type of assessment needed",
-"scope_and_stage": "Relevant scope/stage identified",
-"classification_justification": "Why this classification was selected"
-}},
-"user_needs_summary": "Brief analysis of user's specific ESG method requirements",
-"recommendations": [
-{{
-"rank": 1,
-"method_name": "Exact method name from CSV",
-"overall_fit_score": "High/Medium/Low",
-"justification": "Detailed explanation of why this method is the best fit",
-"key_strengths": ["Strength 1", "Strength 2", "Strength 3"],
-"applicable_scenarios": ["Scenario 1", "Scenario 2"]
-}},
-{{
-"rank": 2,
-"method_name": "Exact method name from CSV",
-"overall_fit_score": "High/Medium/Low",
-"justification": "Detailed explanation of why this method is a strong fit",
-"key_strengths": ["Strength 1", "Strength 2", "Strength 3"],
-"applicable_scenarios": ["Scenario 1", "Scenario 2"]
-}},
-{{
-"rank": 3,
-"method_name": "Exact method name from CSV",
-"overall_fit_score": "High/Medium/Low",
-"justification": "Detailed explanation of why this method is a good fit",
-"key_strengths": ["Strength 1", "Strength 2", "Strength 3"],
-"applicable_scenarios": ["Scenario 1", "Scenario 2"]
-}}
-],
-"selection_rationale": "Overall explanation of why these three methods together best serve the user's needs"
-}}
+  "company_analysis": "Brief analysis of company's ESG needs",
+  "recommendations": [
+    {{
+      "rank": 1,
+      "method_name": "Exact method name from available options",
+      "fit_score": "High/Medium/Low",
+      "justification": "Very detailed explanation of why this framework fits the user requirements",
+      "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
+      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
+    }},
+    {{
+      "rank": 2,
+      "method_name": "Exact method name from available options",
+      "fit_score": "High/Medium/Low",
+      "justification": "Very detailed explanation of why this framework fits the user requirements",
+      "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
+      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
+    }},
+    {{
+      "rank": 3,
+      "method_name": "Exact method name from available options",
+      "fit_score": "High/Medium/Low",
+      "justification": "Very detailed explanation of why this framework fits the user requirements",
+      "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
+      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
+    }}
+  ]
+}}  
 
-IMPORTANT GUIDELINES:
-
-Use exact method names from the CSV repository
-Base analysis on actual CSV data fields
-Quote or reference specific purpose-rationale content when justifying scores
-Ensure classification_reasoning clearly shows chain-of-thought process
-If user needs span multiple classifications, select the primary one and note in justification
-Be specific about which CSV fields drove each assessment"""
+IMPORTANT 1: Use only the exact method names provided in the available options.
+IMPORTANT 2: Remember to support your conclusions by integrating exact citations from the repository where possible, for traceability purposes"""
     
     def _parse_and_format_response(self, response):
         """Parse the LLM response and format it nicely"""

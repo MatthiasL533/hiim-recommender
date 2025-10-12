@@ -38,14 +38,17 @@ def main():
     print("Enter information:")
     print("-" * 30)
 
-    focus = input("Focus: ").strip()
-    industry = input("Industry: ").strip()
-    needs = input("Needs: ").strip()
-    objectives = input("Objectives: ").strip()
-    
-    if not all([focus, industry, needs, objectives]):
+    company_name = input("Company Name: ").strip()
+    description = input("Company Description: ").strip()
+    field = input("Industry/Field: ").strip()
+    activities = input("Key Activities/Products: ").strip()
+    esg_requirements = input("ESG Requirements: ").strip()
+    purpose_goal = input("Purpose/End Goal: ").strip()
+
+    if not all([company_name, description, field, activities, esg_requirements, purpose_goal]):
         print("❌ Please fill in all fields")
         return
+
     
     # Initialize recommender
     recommender = ESGRecommender()
@@ -57,8 +60,9 @@ def main():
     
     try:
         # Get recommendations
+                # Get recommendations
         recommendations = recommender.recommend(
-            focus, industry, needs, objectives
+            company_name, description, field, activities, esg_requirements, purpose_goal
         )
         
         print(recommendations)
