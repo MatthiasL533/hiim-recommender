@@ -34,30 +34,32 @@ class OllamaHandler:
         """Build a prompt that forces structured JSON output"""
         
         return f"""You are an expert ESG (Environmental, Social, Governance) reporting consultant. 
-Analyze the following company and recommend the most suitable ESG reporting frameworks from the available options.
+Analyze the following company and it's requirements and recommend the most suitable ESG reporting frameworks from the available options which are found in the repository.
 
-COMPANY ANALYSIS:
+User and company requirements:
 - Company Name: {company_info['name']}
 - Industry/Field: {company_info['field']}
 - Company Description: {company_info['description']}
 - Key Activities: {company_info['activities']}
+- Key ESG requirements: {company_info['ESG requirements']}
+- Purpose/end goal: {company_info['Purpose/end goal']}
 
-{esg_context}
+Repository: {esg_context}
 
 INSTRUCTIONS:
 1. Analyze the company's industry, activities, and characteristics
-2. Match against the available ESG frameworks' applicability, focus areas, and difficulty
+2. Match against the available ESG frameworks' applicability, focus areas, and relevance
 3. Select the TOP 3 most suitable frameworks
-4. Return your response as VALID JSON only
+4. Incorporate direct citations from the respective method fields in your recommendations where possible. Be as detailed as you can. 
+5. Return your response as VALID JSON only
 
 CRITERIA FOR MATCHING:
 - Industry alignment
-- Company size and complexity
 - Focus area relevance
-- Implementation difficulty
-- Stakeholder expectations
+- Key requirements relevance
+- Purpose & end goal alignment
 
-RETURN STRICT JSON FORMAT (no other text):
+RETURN THIS STRICT JSON FORMAT (no other introductory or concluding text):
 {{
   "company_analysis": "Brief analysis of company's ESG needs",
   "recommendations": [
@@ -65,30 +67,31 @@ RETURN STRICT JSON FORMAT (no other text):
       "rank": 1,
       "method_name": "Exact method name from available options",
       "fit_score": "High/Medium/Low",
-      "justification": "Detailed explanation of why this framework fits",
+      "justification": "Very detailed explanation of why this framework fits the user requirements",
       "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
-      "implementation_tips": ["Tip 1", "Tip 2"]
+      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
     }},
     {{
       "rank": 2,
-      "method_name": "Exact method name from available options", 
+      "method_name": "Exact method name from available options",
       "fit_score": "High/Medium/Low",
-      "justification": "Detailed explanation of why this framework fits",
+      "justification": "Very detailed explanation of why this framework fits the user requirements",
       "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
-      "implementation_tips": ["Tip 1", "Tip 2"]
+      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
     }},
     {{
       "rank": 3,
       "method_name": "Exact method name from available options",
-      "fit_score": "High/Medium/Low", 
-      "justification": "Detailed explanation of why this framework fits",
+      "fit_score": "High/Medium/Low",
+      "justification": "Very detailed explanation of why this framework fits the user requirements",
       "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
-      "implementation_tips": ["Tip 1", "Tip 2"]
+      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
     }}
   ]
-}}
+}}  
 
-IMPORTANT: Use only the exact method names provided in the available options."""
+IMPORTANT 1: Use only the exact method names provided in the available options.
+IMPORTANT 2: Remember to support your conclusions by integrating exact citations from the repository where possible, for traceability purposes"""
     
     def _parse_and_format_response(self, response):
         """Parse the LLM response and format it nicely"""

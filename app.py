@@ -54,6 +54,7 @@ def index():
                          services_status=services_status,
                          services_message=services_message)
 
+
 @app.route('/recommend', methods=['POST'])
 def recommend():
     """Handle recommendation requests"""
@@ -63,32 +64,41 @@ def recommend():
         description = request.form.get('description', '').strip()
         field = request.form.get('field', '').strip()
         activities = request.form.get('activities', '').strip()
-        
+        esg_requirements = request.form.get('esg_requirements', '').strip()
+        purpose_goal = request.form.get('purpose_goal', '').strip()
+
         # Validate input
-        if not all([company_name, description, field, activities]):
+        if not all([company_name, description, field, activities, esg_requirements, purpose_goal]):
             flash('Please fill in all fields', 'error')
             return redirect(url_for('index'))
-        
+
         # Check Ollama status
         ollama_ready, ollama_message = check_ollama_setup()
         if not ollama_ready:
             flash(f'Ollama not ready: {ollama_message}', 'error')
             return redirect(url_for('index'))
-        
+
         # Initialize services if not already done
         if recommender is None:
             services_ready, services_message = initialize_services()
             if not services_ready:
                 flash(f'Service initialization failed: {services_message}', 'error')
                 return redirect(url_for('index'))
-        
-        # Get recommendations
-        recommendations = recommender.recommend(company_name, description, field, activities)
-        
-        return render_template('results.html', 
-                             company_name=company_name,
-                             recommendations=recommendations)
-        
+
+        # Get recommendations with all required parameters
+        recommendations = recommender.recommend(
+            company_name,
+            description,
+            field,
+            activities,
+            esg_requirements,
+            purpose_goal
+        )
+
+        return render_template('results.html',
+                               company_name=company_name,
+                               recommendations=recommendations)
+
     except Exception as e:
         flash(f'An error occurred: {str(e)}', 'error')
         return redirect(url_for('index'))

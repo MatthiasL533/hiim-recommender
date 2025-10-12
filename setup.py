@@ -5,7 +5,8 @@ Setup script for ESG Recommender with Ollama
 
 import subprocess
 import sys
-import os
+import osollama --version
+
 
 def run_command(command, check=True):
     """Run a shell command and return the result"""

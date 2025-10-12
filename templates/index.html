@@ -85,14 +85,31 @@
                                       placeholder="Describe what your company does, its mission, and key business activities" required></textarea>
                         </div>
                         
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="activities" class="form-label">
                                 <i class="fas fa-tasks me-1"></i>Key activities/products *
                             </label>
-                            <textarea class="form-control" id="activities" name="activities" rows="3" 
+                            <textarea class="form-control" id="activities" name="activities" rows="3"
                                       placeholder="List your main products, services, or business activities" required></textarea>
                         </div>
-                        
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="esg_requirements" class="form-label">
+                                    <i class="fas fa-leaf me-1"></i>ESG requirements *
+                                </label>
+                                <input type="text" class="form-control" id="esg_requirements" name="esg_requirements"
+                                       placeholder="e.g., Carbon neutrality, Data privacy, Fair labor practices" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="purpose_goal" class="form-label">
+                                    <i class="fas fa-target me-1"></i>Purpose/End goal *
+                                </label>
+                                <input type="text" class="form-control" id="purpose_goal" name="purpose_goal"
+                                       placeholder="e.g., Achieve B Corp certification, Reduce emissions by 50%" required>
+                            </div>
+                        </div>
+
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
                                 <i class="fas fa-magic me-2"></i>Get impact measurement method recommendations
@@ -104,7 +121,7 @@
         </div>
     </div>
 
-    
+
 
 
 {% endblock %}
@@ -115,10 +132,10 @@
     document.getElementById('recommendationForm').addEventListener('submit', function(e) {
         const submitBtn = document.getElementById('submitBtn');
         const originalText = submitBtn.innerHTML;
-        
+
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
         submitBtn.disabled = true;
-        
+
         // Re-enable button after 30 seconds as fallback
         setTimeout(function() {
             submitBtn.innerHTML = originalText;
