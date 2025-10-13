@@ -34,9 +34,9 @@ class OllamaHandler:
         """Build a prompt that forces structured JSON output"""
         
         return f"""You are an expert ESG (Environmental, Social, Governance) reporting consultant. 
-Analyze the following company and it's requirements and recommend the most suitable ESG reporting frameworks from the available options which are found in the repository.
+Analyze the company's requirements and recommend the top 3 most suitable ESG reporting frameworks from the repository.
 
-User and company requirements:
+Company requirements:
 - Company Name: {company_info['name']}
 - Industry/Field: {company_info['field']}
 - Company Description: {company_info['description']}
@@ -44,54 +44,67 @@ User and company requirements:
 - Key ESG requirements: {company_info['ESG requirements']}
 - Purpose/end goal: {company_info['Purpose/end goal']}
 
-Repository: {esg_context}
+AVAILABLE ESG FRAMEWORKS (Repository): {esg_context}
 
-INSTRUCTIONS:
-1. Analyze the company's industry, activities, and characteristics
-2. Match against the available ESG frameworks' applicability, focus areas, and relevance
-3. Select the TOP 3 most suitable frameworks
-4. Incorporate direct citations from the respective method fields in your recommendations where possible. Be as detailed as you can. 
-5. Return your response as VALID JSON only
-
-CRITERIA FOR MATCHING:
+ANALYSIS CRITERIA:
 - Industry alignment
 - Focus area relevance
-- Key requirements relevance
+- Key requirements match
 - Purpose & end goal alignment
 
-RETURN THIS STRICT JSON FORMAT (no other introductory or concluding text):
+YOUR TASK:
+1. Analyze the company's ESG needs based on the company requirements above
+2. Review the available frameworks in the Repository
+3. Select the TOP 3 most suitable frameworks from the Repository
+4. For each framework, extract the ACTUAL method name from the repository data
+5. Provide detailed justification citing specific properties from the repository
+
+OUTPUT REQUIREMENTS:
+- Respond ONLY with valid JSON
+- Do NOT include any text before or after the JSON
+- Use ACTUAL method names from the repository, NOT placeholder text
+- The "method_name" field must contain the real framework name (e.g., "B Impact Assessment", "Sustainable Development Goals Compass", "Roundtable on Sustainability Palm Oil"), NOT the text "Exact method name from available options"
+
+
+
+RETURN THIS STRICT JSON FORMAT:
 {{
-  "company_analysis": "Brief analysis of company's ESG needs",
+  "company_analysis": "Brief analysis of company's ESG needs (2-3 sentences)",
   "recommendations": [
     {{
       "rank": 1,
-      "method_name": "Exact method name from available options",
+      "method_name": "<INSERT ACTUAL FRAMEWORK NAME FROM REPOSITORY HERE>",
       "fit_score": "High/Medium/Low",
       "justification": "Very detailed explanation of why this framework fits the user requirements",
-      "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
-      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
+      "key_benefits": ["Specific benefit 1", "Specific benefit 2", "Specific benefit 3"],
+      "implementation_tips": "Practical implementation guidance based on the framework's properties from the repository"
     }},
     {{
       "rank": 2,
-      "method_name": "Exact method name from available options",
+      "method_name": "<INSERT ACTUAL FRAMEWORK NAME FROM REPOSITORY HERE>",
       "fit_score": "High/Medium/Low",
       "justification": "Very detailed explanation of why this framework fits the user requirements",
-      "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
-      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
+      "key_benefits": ["Specific benefit 1", "Specific benefit 2", "Specific benefit 3"],
+      "implementation_tips": "Practical implementation guidance based on the framework's properties from the repository"
     }},
     {{
       "rank": 3,
-      "method_name": "Exact method name from available options",
+      "method_name": "<INSERT ACTUAL FRAMEWORK NAME FROM REPOSITORY HERE>",
       "fit_score": "High/Medium/Low",
       "justification": "Very detailed explanation of why this framework fits the user requirements",
-      "key_benefits": ["Benefit 1", "Benefit 2", "Benefit 3"],
-      "implementation_tips": "Detailed tips for implementing this method, based on direct citations from the method's fields"
+      "key_benefits": ["Specific benefit 1", "Specific benefit 2", "Specific benefit 3"],
+      "implementation_tips": "Practical implementation guidance based on the framework's properties from the repository"
     }}
   ]
+        "analysis_notes": "Brief notes on analysis process and any limitations for debugging"
 }}  
 
-IMPORTANT 1: Use only the exact method names provided in the available options.
-IMPORTANT 2: Remember to support your conclusions by integrating exact citations from the repository where possible, for traceability purposes"""
+CRITICAL REMINDERS:
+- Output ONLY the JSON object, nothing else
+- NO introductory text like "Dear valued client"
+- NO explanatory text before or after the JSON
+- Use real framework names from the repository (e.g., "B Impact Assessment", not "Exact method name from available options")
+- Ensure the JSON is properly formatted and can be parsed by json.loads() """
     
     def _parse_and_format_response(self, response):
         """Parse the LLM response and format it nicely"""
