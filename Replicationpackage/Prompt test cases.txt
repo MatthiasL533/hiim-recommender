@@ -1,0 +1,34 @@
+Look at the CSV shared. It's about methods for ESG reporting. You are tasked with creating 10 testsets that emulate different requirements for companies. Based on those requirements, humans will have to select the best fitting method(s).
+
+
+
+Generate 10 testsets of typical user requirements, 5 of them should be specifically tied to one ESG method and the other 5 should be broader, it should be fitting for multiple methods.
+
+
+
+Look at this example, this one is tied to a specific method. But be more consise in your test sets. But use the same outline:
+Company name
+
+Industry/Field
+
+Company Description
+
+Key Activities 
+
+Key ESG Requirements
+
+Purpose/End Goal
+
+
+Example:
+Company Name GreenBuild Solutions
+
+Industry/Field Building Materials / Manufacturing
+
+Company Description A leading manufacturer of certified, sustainable building materials (such as insulation, concrete, or timber frame construction). The company operates in a regulated sector and must provide standardized and verifiable environmental information to architects, engineers, and procurement organizations to meet the demands of BREEAM or LEED projects.
+
+Key Activities Conducting Life Cycle Assessments (LCA) for all product lines; optimizing production processes to reduce energy and waste; sourcing raw materials with a low environmental impact; and compiling technical, environmental-related documentation.
+
+Key ESG Requirements Environmental Transparency (E): Mandatory, third-party verified reporting of the product's environmental impact across its entire lifecycle (cradle-to-gate or cradle-to-grave). Compliance: Adherence to international standards (specifically ISO 14025 for EPDs and ISO 14040/44 for the underlying LCA). Quantifiable Data: The ability to collect and present measurable, quantitative data on metrics like CO2 emissions (Global Warming Potential), water consumption, and waste.
+
+Purpose/End Goal Market Access and Competitiveness: Securing B2B contracts and winning public tenders where EPDs are a mandatory or decisive factor. Product Optimization: Identifying environmental hotspots within the value chain to drive targeted ecodesign and innovation (Management Purpose). Credibility: Communicating verified environmental performance to all external stakeholders to strengthen the reputation as a sustainable market leader (Reporting Purpose).
