@@ -1,4 +1,4 @@
-from src.recommender import ESGRecommender
+from src.recommender import Recommender
 
 
 def check_ollama_setup():
@@ -44,15 +44,15 @@ def main():
     description = input("Company Description: ").strip()
     field = input("Industry/Field: ").strip()
     activities = input("Key Activities/Products: ").strip()
-    esg_requirements = input("ESG Requirements: ").strip()
+    hiim_requirements = input("ESG Requirements: ").strip()
     purpose_goal = input("Purpose/End Goal: ").strip()
 
-    if not all([company_name, description, field, activities, esg_requirements, purpose_goal]):
+    if not all([company_name, description, field, activities, hiim_requirements, purpose_goal]):
         print("❌ Please fill in all fields")
         return
 
     # Initialize recommender
-    recommender = ESGRecommender()
+    recommender = Recommender()
 
     print("\n" + "=" * 50)
     print("🔍 Analyzing your company and ESG frameworks...")
@@ -62,7 +62,7 @@ def main():
     try:
         # Get recommendations
         recommendations = recommender.recommend(
-            company_name, description, field, activities, esg_requirements, purpose_goal
+            company_name, description, field, activities, hiim_requirements, purpose_goal
         )
 
         print(recommendations)

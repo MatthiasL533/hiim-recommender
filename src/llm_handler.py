@@ -7,10 +7,10 @@ class OllamaHandler:
         self.model_name = model_name
         self.client = ollama.Client()
         
-    def get_recommendations(self, company_info, esg_context):
-        """Get structured ESG recommendations using Ollama"""
+    def get_recommendations(self, company_info, hiim_context):
+        """Get structured recommendations using Ollama"""
         
-        prompt = self._build_structured_prompt(company_info, esg_context)
+        prompt = self._build_structured_prompt(company_info, hiim_context)
         
         try:
             print("🤖 Generating recommendations with Ollama...")
@@ -30,7 +30,7 @@ class OllamaHandler:
         except Exception as e:
             return f"❌ Error: {str(e)}\n\nPlease ensure Ollama is running and the model '{self.model_name}' is installed."
     
-    def _build_structured_prompt(self, company_info, esg_context):
+    def _build_structured_prompt(self, company_info, hiim_context):
         """Build a prompt that forces structured JSON output"""
         
         return f"""You are an expert ESG (Environmental, Social, Governance) reporting consultant. 
@@ -44,7 +44,7 @@ Company requirements:
 - Key ESG requirements: {company_info['ESG requirements']}
 - Purpose/end goal: {company_info['Purpose/end goal']}
 
-AVAILABLE ESG FRAMEWORKS (Repository): {esg_context}
+AVAILABLE ESG FRAMEWORKS (Repository): {hiim_context}
 
 ANALYSIS CRITERIA:
 - Industry alignment

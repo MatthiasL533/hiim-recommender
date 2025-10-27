@@ -1,19 +1,19 @@
 import pandas as pd
 import os
 
-class ESGDataLoader:
+class DataLoader:
     def __init__(self, data_path="data/csv_impactmeasurement_repo.csv"):
         self.data_path = data_path
-        self.esg_data = None
+        self.hiim_data = None
     
     def load_data(self):
-        """Load ESG methods data from semicolon-separated CSV"""
+        """Load methods data from semicolon-separated CSV"""
         try:
             # Read CSV with semicolon separator
-            self.esg_data = pd.read_csv(self.data_path, sep=';', encoding='utf-8')
-            print(f"✅ Loaded {len(self.esg_data)} ESG impact measurement methods")
-            print(f"📊 Dataset contains {len(self.esg_data.columns)} columns")
-            return self.esg_data
+            self.hiim_data = pd.read_csv(self.data_path, sep=';', encoding='utf-8')
+            print(f"✅ Loaded {len(self.hiim_data)} ESG impact measurement methods")
+            print(f"📊 Dataset contains {len(self.hiim_data.columns)} columns")
+            return self.hiim_data
         except FileNotFoundError:
             print(f"❌ Error: CSV file not found at {self.data_path}")
             return None
@@ -22,16 +22,16 @@ class ESGDataLoader:
             return None
     
     def get_methods_context(self):
-        """Format ESG methods for LLM context"""
-        if self.esg_data is None:
+        """Format methods for LLM context"""
+        if self.hiim_data is None:
             self.load_data()
         
-        if self.esg_data is None:
+        if self.hiim_data is None:
             return "No data available"
         
         context = "AVAILABLE ESG IMPACT MEASUREMENT METHODS:\n\n"
         
-        for _, row in self.esg_data.iterrows():
+        for _, row in self.hiim_data.iterrows():
             # Get method name (handle potential NaN values)
             method_name = row.get('method name', 'Unknown Method')
             if pd.isna(method_name):
@@ -80,15 +80,15 @@ class ESGDataLoader:
     
     def get_method_by_name(self, method_name):
         """Get specific method details by name"""
-        if self.esg_data is None:
+        if self.hiim_data is None:
             self.load_data()
         
-        if self.esg_data is None:
+        if self.hiim_data is None:
             return None
         
         # Search for method by name (case insensitive)
-        method_row = self.esg_data[
-            self.esg_data['method name'].str.contains(method_name, case=False, na=False)
+        method_row = self.hiim_data[
+            self.hiim_data['method name'].str.contains(method_name, case=False, na=False)
         ]
         
         if len(method_row) > 0:
@@ -97,33 +97,33 @@ class ESGDataLoader:
     
     def get_methods_by_scope(self, scope_type):
         """Get methods that include specific scope (Ethical, Social, Environmental, Economic)"""
-        if self.esg_data is None:
+        if self.hiim_data is None:
             self.load_data()
         
-        if self.esg_data is None:
+        if self.hiim_data is None:
             return None
         
         scope_column = f"scope_{scope_type}"
-        if scope_column in self.esg_data.columns:
-            methods = self.esg_data[
-                self.esg_data[scope_column].str.contains("Is included", case=False, na=False)
+        if scope_column in self.hiim_data.columns:
+            methods = self.hiim_data[
+                self.hiim_data[scope_column].str.contains("Is included", case=False, na=False)
             ]
             return methods
         return None
     
     def get_data_summary(self):
         """Get summary statistics about the dataset"""
-        if self.esg_data is None:
+        if self.hiim_data is None:
             self.load_data()
         
-        if self.esg_data is None:
+        if self.hiim_data is None:
             return "No data available"
         
         summary = {
-            'total_methods': len(self.esg_data),
-            'columns': len(self.esg_data.columns),
-            'developers': self.esg_data['developer'].nunique() if 'developer' in self.esg_data.columns else 0,
-            'release_years': self.esg_data['release year'].nunique() if 'release year' in self.esg_data.columns else 0
+            'total_methods': len(self.hiim_data),
+            'columns': len(self.hiim_data.columns),
+            'developers': self.hiim_data['developer'].nunique() if 'developer' in self.hiim_data.columns else 0,
+            'release_years': self.hiim_data['release year'].nunique() if 'release year' in self.hiim_data.columns else 0
         }
         
         return summary

@@ -1,17 +1,17 @@
-from src.data_loader import ESGDataLoader
+from src.data_loader import DataLoader
 from src.llm_handler import OllamaHandler
 
 
-class ESGRecommender:
+class Recommender:
     def __init__(self):
-        self.data_loader = ESGDataLoader()
+        self.data_loader = DataLoader()
         self.llm_handler = OllamaHandler()
 
-    def recommend(self, company_name, description, field, activities, esg_requirements, purpose_goal):
+    def recommend(self, company_name, description, field, activities, hiim_requirements, purpose_goal):
         """Main method to get ESG recommendations"""
 
         print("📁 Loading ESG framework data...")
-        esg_context = self.data_loader.get_methods_context()
+        hiim_context = self.data_loader.get_methods_context()
 
         # Prepare company info with all parameters
         company_info = {
@@ -19,9 +19,9 @@ class ESGRecommender:
             'description': description,
             'field': field,
             'activities': activities,
-            'ESG requirements': esg_requirements,
+            'ESG requirements': hiim_requirements,
             'Purpose/end goal': purpose_goal
         }
-        recommendations = self.llm_handler.get_recommendations(company_info, esg_context)
+        recommendations = self.llm_handler.get_recommendations(company_info, hiim_context)
 
         return recommendations
