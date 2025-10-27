@@ -152,7 +152,7 @@ This may take 20-30 seconds...
 ## Project Structure
 
 ```
-esg-recommender/
+hiim-recommender/
 ├── Replicationpackage/          # Replication materials
 │   ├── csv_impactmeasurement_repo.csv
 │   ├── Prompt prototype .txt
@@ -161,7 +161,7 @@ esg-recommender/
 │   ├── Fishers exact test.R
 │   ├── Wilcoxon test.R
 │   └── Replication
-├── data/                         # ESG methods dataset
+├── data/                         # HIIM methods dataset
 │   └── csv_impactmeasurement_repo.csv
 ├── src/                          # Source code
 │   ├── recommender.py           # Main recommender class
